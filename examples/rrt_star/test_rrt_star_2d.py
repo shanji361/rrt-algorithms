@@ -199,8 +199,8 @@ execution_times = []
 path_lengths = []
 successes = 0
 
-for i in range(100):
-    print(f"Running trial {i + 1}/100", end='\r')
+for i in range(1):
+    # print(f"Running trial {i + 1}/100", end='\r')
     exec_time, path_len, path, trees = run_rrt_star_once()
     execution_times.append(exec_time)
     if path_len:
@@ -208,7 +208,7 @@ for i in range(100):
         successes += 1
 
 print("\n== 2D rrt* results ==")
-print(f"Success rate: {successes}%")
+# print(f"Success rate: {successes}%")
 print(f"Mean exec time: {mean(execution_times):.4f}s")
 print(f"Min time: {min(execution_times):.4f}s")
 print(f"Max time: {max(execution_times):.4f}s")
@@ -232,25 +232,25 @@ plot.plot_goal(X, x_goal)
 plot.draw(auto_open=True)
 
 
-if __name__ == "__main__":
-    import cProfile
+# if __name__ == "__main__":
+#     import cProfile
 
-    def main():
-        exec_time, path_len, path, trees = run_rrt_star_once()
+#     def main():
+#         exec_time, path_len, path, trees = run_rrt_star_once()
 
-        print("\n== 2D rrt* results (1 trial) ==")
-        print(f"Execution time: {exec_time:.4f}s")
-        if path_len:
-            print(f"Path length: {path_len:.2f}")
+#         print("\n== 2D rrt* results (1 trial) ==")
+#         print(f"Execution time: {exec_time:.4f}s")
+#         if path_len:
+#             print(f"Path length: {path_len:.2f}")
 
-        X = SearchSpace(X_dimensions, Obstacles)
-        plot = Plot("rrt_star_2d_final")
-        plot.plot_tree(X, trees)
-        if path is not None:
-            plot.plot_path(X, path)
-        plot.plot_obstacles(X, Obstacles)
-        plot.plot_start(X, x_init)
-        plot.plot_goal(X, x_goal)
-        plot.draw(auto_open=True)
+#         X = SearchSpace(X_dimensions, Obstacles)
+#         plot = Plot("rrt_star_2d_final")
+#         plot.plot_tree(X, trees)
+#         if path is not None:
+#             plot.plot_path(X, path)
+#         plot.plot_obstacles(X, Obstacles)
+#         plot.plot_start(X, x_init)
+#         plot.plot_goal(X, x_goal)
+#         plot.draw(auto_open=True)
 
-    cProfile.run("main()", filename="profile_output.prof")
+#     cProfile.run("main()", filename="profile_output.prof")
