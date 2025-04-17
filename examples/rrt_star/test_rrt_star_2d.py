@@ -7,6 +7,8 @@ from rrt_algorithms.search_space.search_space import SearchSpace
 from rrt_algorithms.utilities.plotting import Plot
 import numpy as np 
 
+import cProfile
+
 X_dimensions = np.array([(0, 100), (0, 100)])
 
 case_1 = np.array([
@@ -168,10 +170,10 @@ case_4 = np.array([
 
 
 
-Obstacles = case_4
+Obstacles = case_1
 
-x_init = (0, 0)
-x_goal = (100, 100)
+x_init = (80, 0)
+x_goal = (80, 80)
 q = 8
 r = 1
 max_samples = 1024
@@ -228,3 +230,27 @@ plot.plot_obstacles(X, Obstacles)
 plot.plot_start(X, x_init)
 plot.plot_goal(X, x_goal)
 plot.draw(auto_open=True)
+
+
+if __name__ == "__main__":
+    import cProfile
+
+    def main():
+        exec_time, path_len, path, trees = run_rrt_star_once()
+
+        print("\n== 2D rrt* results (1 trial) ==")
+        print(f"Execution time: {exec_time:.4f}s")
+        if path_len:
+            print(f"Path length: {path_len:.2f}")
+
+        X = SearchSpace(X_dimensions, Obstacles)
+        plot = Plot("rrt_star_2d_final")
+        plot.plot_tree(X, trees)
+        if path is not None:
+            plot.plot_path(X, path)
+        plot.plot_obstacles(X, Obstacles)
+        plot.plot_start(X, x_init)
+        plot.plot_goal(X, x_goal)
+        plot.draw(auto_open=True)
+
+    cProfile.run("main()", filename="profile_output.prof")
