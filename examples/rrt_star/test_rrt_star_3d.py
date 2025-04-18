@@ -81,7 +81,7 @@ case_4_3d = np.array([
 ])
 
 
-Obstacles = case_2_3d  
+Obstacles = case_4_3d
 
 # Start and goal positions
 x_init = (0, 0, 0)
@@ -127,8 +127,8 @@ execution_times = []
 path_lengths = []
 success_count = 0
 
-for i in range(100):
-    print(f"Run {i+1}/100", end="\r")
+for i in range(1):
+    # print(f"Run {i+1}/100", end="\r")
     exec_time, path_length, path, trees = run_single_rrtstar()
     execution_times.append(exec_time)
     
@@ -138,16 +138,16 @@ for i in range(100):
 
 # Print statistics
 print("\nResults:")
-print(f"Success rate: {success_count}%")
+# print(f"Success rate: {success_count}%")
 print(f"Average execution time: {mean(execution_times):.4f} seconds")
-print(f"Median execution time: {median(execution_times):.4f} seconds")
-print(f"Standard deviation: {stdev(execution_times):.4f} seconds")
+# print(f"Median execution time: {median(execution_times):.4f} seconds")
+# print(f"Standard deviation: {stdev(execution_times):.4f} seconds")
 print(f"Min execution time: {min(execution_times):.4f} seconds")
 print(f"Max execution time: {max(execution_times):.4f} seconds")
 
 if path_lengths:
     print(f"Average path length: {mean(path_lengths):.4f}")
-    print(f"Median path length: {median(path_lengths):.4f}")
+    # print(f"Median path length: {median(path_lengths):.4f}")
     print(f"Min path length: {min(path_lengths):.4f}")
     print(f"Max path length: {max(path_lengths):.4f}")
 

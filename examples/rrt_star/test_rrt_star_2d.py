@@ -170,10 +170,10 @@ case_4 = np.array([
 
 
 
-Obstacles = case_1
+Obstacles = case_4
 
-x_init = (80, 0)
-x_goal = (80, 80)
+x_init = (0, 0)
+x_goal = (100, 100)
 q = 8
 r = 1
 max_samples = 1024
