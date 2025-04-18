@@ -8,23 +8,22 @@ from rrt_algorithms.utilities.plotting import Plot
 
 from latency_logger import track_latency, write_latency_csv, reset_latency_stats, print_latency_summary
 
-X_dimensions = np.array([(0, 100), (0, 100)])
+X_dimensions = np.array([(0, 100), (0, 100), (0, 100)])
 
 case_1 = np.array([
-    (40, 55, 60, 100),
-    (40, 0, 60, 45)
+    (0, 60, 0, 70, 100, 100),
+    (30, 0, 0, 100, 40, 100)
 ])
 
 Obstacles = case_1
-x_init = (80, 0)
-x_goal = (80, 80)
+x_init = (0, 0, 0)
+x_goal = (100, 100, 100)
 q = 8
 r = 1
 max_samples = 1024
 rewire_count = 32
 prc = 0.1
-MACHINE_NAME = "M1"  # change for M2, M3, etc.
-
+MACHINE_NAME = "M1"
 
 def run_rrt_star_once():
     X = SearchSpace(X_dimensions, Obstacles)
@@ -47,24 +46,23 @@ def run_rrt_star_once():
         path_len = sum(np.linalg.norm(np.array(path[i]) - np.array(path[i + 1])) for i in range(len(path) - 1))
     return total_execution_time, path_len, path, rrt.trees
 
-
 execution_times = []
 path_lengths = []
 successes = 0
+reset_latency_stats()
 
-for i in range(10):  # Reduce for quick profiling
-    print(f"Running trial {i + 1}/10", end='\r')
-    reset_latency_stats()
+for i in range(100):
+    print(f"Running trial {i + 1}/100", end='\r')
     exec_time, path_len, path, trees = run_rrt_star_once()
     execution_times.append(exec_time)
     if path_len:
         path_lengths.append(path_len)
         successes += 1
 
-    print_latency_summary()
-    write_latency_csv(machine_name=MACHINE_NAME, dimension_label="2D")
+print_latency_summary()
+write_latency_csv(machine_name=MACHINE_NAME, dimension_label="3D")
 
-print("\n== 2D rrt* results ==")
+print("\n== 3D rrt* results ==")
 print(f"Success rate: {successes}%")
 print(f"Mean exec time: {mean(execution_times):.4f}s")
 print(f"Min time: {min(execution_times):.4f}s")
@@ -76,7 +74,7 @@ if path_lengths:
     print(f"Longest Path : {max(path_lengths):.2f}")
 
 X = SearchSpace(X_dimensions, Obstacles)
-plot = Plot("rrt_star_2d_final")
+plot = Plot("rrt_star_3d_final")
 plot.plot_tree(X, trees)
 if path is not None:
     plot.plot_path(X, path)
